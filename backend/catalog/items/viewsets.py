@@ -18,8 +18,9 @@ class ItemModelViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         items = self.get_queryset()
-        serializer = serializers.ListItemSerializer(items, context={'request': request})
+        serializer = serializers.ListItemSerializer(items, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 
     # @decorators.parser_classes((parsers.FormParser, parsers.MultiPartParser))

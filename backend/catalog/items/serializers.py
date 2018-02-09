@@ -17,7 +17,7 @@ class ListItemSerializer(serializers.HyperlinkedModelSerializer):
             'url', 'id', 'name', 'price', 'categories', 'image'
         )
         read_only_fields = (
-            'url', 'id', 'create_at', 'modified_at', 'image'
+            'url', 'id', 'created_at', 'modified_at', 'image'
         )
 
 
@@ -34,5 +34,5 @@ class DetailItemSerializer(serializers.ModelSerializer):
             'description', 'image'
         )
         read_only_fields = (
-            'id', 'create_at', 'modified_at', 'image'
+            'id', 'created_at', 'modified_at', 'image'
         )
