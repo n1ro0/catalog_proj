@@ -2,14 +2,11 @@ from rest_framework import serializers
 
 
 from catalog.categories import models as categories_models
+from catalog.categories import serializers as categories_serializers
 from . import models
 
 
 class ListItemSerializer(serializers.HyperlinkedModelSerializer):
-    categories = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=categories_models.Category.objects.all()
-    )
 
     class Meta:
         model = models.Item

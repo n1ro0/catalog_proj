@@ -1,10 +1,13 @@
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+
+
 from rest_framework import (
     viewsets,
     status,
     parsers,
     decorators
 )
-
 from rest_framework.response import Response
 
 
@@ -12,6 +15,7 @@ from . import serializers
 from . import models
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class ItemModelViewSet(viewsets.ModelViewSet):
     queryset = models.Item.objects.all()
     serializer_class = serializers.DetailItemSerializer
