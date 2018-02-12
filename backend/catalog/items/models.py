@@ -6,12 +6,16 @@ from catalog.core import models as core_models
 from catalog.categories import models as categories_models
 
 
+def upload_to(instance, filename):
+    return 'items/{}/{}'.format(instance.id, 'photo.png')
+
+
 class Item(core_models.TimeStamped):
     name = models.CharField(max_length=300, blank=True)
     price = models.FloatField(null=True, blank=True)
     categories = models.ManyToManyField(categories_models.Category, related_name='items')
     description = models.TextField(blank=True)
-    image = models.ImageField(default='items/photos/default.png', upload_to='items/photos')
+    image = models.ImageField(default='items/default.png', upload_to=upload_to)
     objects = managers.ItemManager()
 
     def __str__(self):

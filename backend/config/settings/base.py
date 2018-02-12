@@ -37,13 +37,13 @@ def get_env_variable(var_name):
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = pathlib.Path(__file__).resolve().parent.parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-MEDIA_ROOT = BASE_DIR / 'catalog/media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'catalog/media')
 
-STATIC_ROOT = BASE_DIR / 'catalog/static_root'
+STATIC_ROOT = os.path.join(BASE_DIR, 'catalog/static_root/')
 
-STATIC_DIRS = [BASE_DIR / 'catalog/static']
+STATIC_DIRS = [os.path.join(BASE_DIR, 'catalog/static/')]
 
 AUTH_USER_MODEL = "customauth.BaseUser"
 

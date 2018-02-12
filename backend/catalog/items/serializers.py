@@ -31,5 +31,5 @@ class DetailItemSerializer(serializers.ModelSerializer):
             'description', 'image'
         )
         read_only_fields = (
-            'id', 'created_at', 'modified_at', 'image'
+            'id', 'created_at', 'modified_at'
         )
