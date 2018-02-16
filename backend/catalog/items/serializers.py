@@ -7,6 +7,10 @@ from . import models
 
 
 class ListItemSerializer(serializers.HyperlinkedModelSerializer):
+    categories = serializers.SlugRelatedField(
+        many=True, slug_field='name',
+        read_only=True
+    )
 
     class Meta:
         model = models.Item
@@ -19,10 +23,6 @@ class ListItemSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class DetailItemSerializer(serializers.ModelSerializer):
-    categories = serializers.SlugRelatedField(
-        many=True, slug_field='name',
-        queryset=categories_models.Category.objects.all()
-    )
 
     class Meta:
         model = models.Item

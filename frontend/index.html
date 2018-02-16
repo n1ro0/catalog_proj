@@ -4,66 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>catalog</title>
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <!--<script src="https://unpkg.com/vue"></script>-->
   </head>
   <body>
-    <div id="app">
-
-      <ul v-if='visible'>
-        <item
-                   v-for="item in items"
-                   v-bind:item="item">
-                   <!--v-bind:key="note.id">-->
-        </item>
-      </ul>
-      <h2>
-        Max Price {{ maxPrice }}
-      </h2>
-      <button v-on:click="refresh">
-        refresh
-      </button>
-    </div>
-    <script>
-      Vue.component('item', {
-        props: ['item'],
-        template: '<li>' +
-                        '<img v-bind:src="item.image"/></br>'+
-                        '{{ item }}'+
-                    '</li>'
-      })
-      const app = new Vue({
-        el: '#app',
-        data: {
-          visible: true,
-          items: [],
-          message: 'You loaded this page on ' + new Date().toLocaleString()
-        },
-
-        computed: {
-          maxPrice () {
-            return this.items.reduce((sum, item) => {
-              return sum > item.price ? sum: item.price
-            }, 0)
-          }
-        },
-        created () {
-          fetch('http://localhost:5001/api/v1/items/')
-            .then(response => response.json())
-            .then(json => {
-              this.items = json
-            })
-        },
-        methods: {
-          refresh: function () {
-            fetch('http://localhost:5001/api/v1/items/')
-            .then(response => response.json())
-            .then(json => {
-              this.items = json
-            })
-          }
-        },
-      })
-    </script>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
   </body>
 </html>
