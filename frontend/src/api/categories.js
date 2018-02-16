@@ -7,7 +7,7 @@ export const Category = {
     })
   },
   delete (category) {
-    return HTTP.delete(`/categories/${category.id}/`)
+    return HTTP.delete('/categories/' + category.id + '/')
   },
   list () {
     return HTTP.get('/categories/').then(response => {

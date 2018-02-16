@@ -7,8 +7,14 @@
     >
     <ul v-else>
       <li v-for="category in categories">
-        {{ category.name }}
+        {{ category.id }}:{{ category.name }} - {{ category.parent_category }}
+        <button
+          @click='remove(category)'
+          >
+          remove
+        </button>
       </li>
+
     </ul>
   </div>
 </template>
@@ -34,6 +40,8 @@
           dispatch('getCategories')
             .then(() => this.loading = false)
         },
+        add: 'addCategory',
+        remove: 'deleteCategory',
       }),
 
 
