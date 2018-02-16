@@ -1,4 +1,3 @@
-import shop from '@/api/shop'
 import {Category} from '@/api/categories'
 
 
@@ -13,6 +12,15 @@ export default {
   },
 
   actions: {
+    showOrHideCategory ({ commit }, index) {
+      commit('showOrHideCategory', index)
+    },
+
+    getCategoryItems ({ commit, state }, index) {
+      Category.items(state.items[index]).then(items => {
+        commit('setCategoryItems', {index, items})
+      })
+    },
     getCategories ({ commit }) {
       Category.list().then(categories => {
         commit('setCategories', categories)
@@ -21,7 +29,7 @@ export default {
 
     createCategory ({ commit }, categoryData) {
       Category.create(categoryData).then(category => {
-        commit('addCategory', category)
+        commit('createCategory', category)
       })
     },
 
@@ -33,12 +41,27 @@ export default {
   },
 
   mutations: {
+
+    showOrHideCategory (state, index) {
+      if (state.items[index].opened) {
+        state.items[index].opened = false
+      } else {
+        state.items[index].opened = true
+      }
+
+    },
+
+    setCategoryItems (state, indexAndItems) {
+      state.items[indexAndItems.index].items = indexAndItems.items
+    },
+
     setCategories (state, categories) {
       state.items = categories
     },
 
-    addCategory (state, category) {
-      state.items = [category, ...state.categories]
+    createCategory (state, category) {
+
+      state.items = [category, ...state.items]
     },
 
     deleteCategory (state, { id }) {

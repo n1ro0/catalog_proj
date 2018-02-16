@@ -6,22 +6,34 @@
       src="https://i.imgur.com/JfPpwOA.gif"
     >
     <ul v-else>
-      <li v-for="category in categories">
-        {{ category.id }}:{{ category.name }} - {{ category.parent_category }}
+      <li v-for="(category, index) in categories">
+        <a @click.prevent='showOrHideCategory(index)'>
+          {{ category.id }}:{{ category.name }} - {{ category.parent_category }}
+        </a>
         <button
           @click='remove(category)'
           >
           remove
         </button>
+        <div v-if="category.opened">
+          <CategoryItems :index='index'/>
+        </div>
       </li>
 
     </ul>
+    <CreateCategory/>
   </div>
 </template>
 
 <script>
+  import CreateCategory from './CreateCategory'
+  import CategoryItems from './CategoryItems'
   import {mapState, mapGetters, mapActions} from 'vuex'
   export default {
+    components: {
+      CreateCategory,
+      CategoryItems
+    },
     data () {
       return {
         loading: false
@@ -40,8 +52,8 @@
           dispatch('getCategories')
             .then(() => this.loading = false)
         },
-        add: 'addCategory',
         remove: 'deleteCategory',
+        showOrHideCategory: 'showOrHideCategory'
       }),
 
 
