@@ -15,7 +15,7 @@ export const Category = {
         Object.assign(category, {opened: false, items: []})
       })
       return response.data
-      })
+    })
   },
   items (category) {
     return HTTP.get('/categories/' + category.id + '/items/').then(response => {
