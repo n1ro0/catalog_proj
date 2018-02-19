@@ -9,13 +9,22 @@ export const Category = {
   delete (category) {
     return HTTP.delete('/categories/' + category.id + '/')
   },
-  list () {
-    return HTTP.get('/categories/').then(response => {
-      response.data.forEach(category => {
-        Object.assign(category, {opened: false, items: []})
+  list (name) {
+    if (name === undefined) {
+      return HTTP.get('/categories/').then(response => {
+        response.data.forEach(category => {
+          Object.assign(category, {opened: false, items: []})
+        })
+        return response.data
       })
-      return response.data
-    })
+    } else {
+      return HTTP.get('/categories/?name=' + name).then(response => {
+        response.data.forEach(category => {
+          Object.assign(category, {opened: false, items: []})
+        })
+        return response.data
+      })
+    }
   },
   items (category) {
     return HTTP.get('/categories/' + category.id + '/items/').then(response => {

@@ -6,6 +6,8 @@
       src="https://i.imgur.com/JfPpwOA.gif"
     >
     <ul v-else>
+      <input v-model='name' placeholder='filter name'>
+      <button @click='getCategories(name)'>filter</button>
       <li v-for="(category, index) in categories">
         <a @click.prevent='showOrHideCategory(index)'>
           {{ category.id }}:{{ category.name }} - {{ category.parent_category }}
@@ -36,6 +38,7 @@
     },
     data () {
       return {
+        name: '',
         loading: false
       }
     },
@@ -47,9 +50,9 @@
 
     methods: {
       ...mapActions('categories', {
-        getCategories: (dispatch) => {
+        getCategories: (dispatch, name) => {
           this.loading = true
-          dispatch('getCategories')
+          dispatch('getCategories', name)
             .then(() => this.loading = false)
         },
         remove: 'deleteCategory',
@@ -61,7 +64,7 @@
 
     created () {
         this.getCategories()
-        setInterval(this.getCategories, 30000)
+        // setInterval(this.getCategories, 30000)
     }
   }
 </script>

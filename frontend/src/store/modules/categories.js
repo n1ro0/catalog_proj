@@ -12,6 +12,8 @@ export default {
   },
 
   actions: {
+
+
     showOrHideCategory ({ commit }, index) {
       commit('showOrHideCategory', index)
     },
@@ -21,8 +23,8 @@ export default {
         commit('setCategoryItems', {index, items})
       })
     },
-    getCategories ({ commit }) {
-      Category.list().then(categories => {
+    getCategories ({ commit }, name) {
+      Category.list(name).then(categories => {
         commit('setCategories', categories)
       })
     },
