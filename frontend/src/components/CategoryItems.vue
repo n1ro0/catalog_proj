@@ -1,6 +1,8 @@
 <template>
   <div>
     <h1>Category Items</h1>
+    <input v-model='name' placeholder='filter name'>
+    <button @click='getCategoryItems(index, name)'>filter</button>
     <img
       v-if="loading"
       src="https://i.imgur.com/JfPpwOA.gif"
@@ -21,6 +23,7 @@
     props: ['index'],
     data () {
       return {
+        name: '',
         loading: false
       }
     },
@@ -33,9 +36,9 @@
 
     methods: {
       ...mapActions('categories', {
-        getCategoryItems: (dispatch, index) => {
+        getCategoryItems: (dispatch, index, name) => {
           this.loading = true
-          dispatch('getCategoryItems', index)
+          dispatch('getCategoryItems', {index, name})
             .then(() => this.loading = false)
         },
       }),

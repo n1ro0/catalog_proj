@@ -30,7 +30,11 @@ class CategoryModelViewSet(viewsets.ModelViewSet):
 
     @decorators.detail_route(methods=['get'])
     def items(self, request, pk=None):
-        items = models.Category.objects.get(pk=pk).items.all()
+        name = request.query_params.get('name', None)
+        if name:
+            items = models.Category.objects.get(pk=pk).items.filter(name__icontains=name)
+        else:
+            items = models.Category.objects.get(pk=pk).items.all()
         serializer = items_serializers.ListItemSerializer(items, many=True, context={'request': request})
         return Response(serializer.data)
 

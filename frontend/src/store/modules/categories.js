@@ -18,9 +18,9 @@ export default {
       commit('showOrHideCategory', index)
     },
 
-    getCategoryItems ({ commit, state }, index) {
-      Category.items(state.items[index]).then(items => {
-        commit('setCategoryItems', {index, items})
+    getCategoryItems ({ commit, state }, indexAndName) {
+      Category.items(state.items[indexAndName.index], indexAndName.name).then(items => {
+        commit('setCategoryItems', {index: indexAndName.index, items})
       })
     },
     getCategories ({ commit }, name) {

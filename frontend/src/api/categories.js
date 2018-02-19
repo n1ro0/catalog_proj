@@ -26,9 +26,15 @@ export const Category = {
       })
     }
   },
-  items (category) {
-    return HTTP.get('/categories/' + category.id + '/items/').then(response => {
-      return response.data
-    })
+  items (category, name) {
+    if (name === undefined) {
+      return HTTP.get('/categories/' + category.id + '/items/').then(response => {
+        return response.data
+      })
+    } else {
+      return HTTP.get('/categories/' + category.id + '/items/?name=' + name).then(response => {
+        return response.data
+      })
+    }
   }
 }
