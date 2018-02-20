@@ -10,18 +10,22 @@ export const Category = {
     return HTTP.delete('/categories/' + category.id + '/')
   },
   list (name) {
-    if (name === undefined) {
+    if (name === undefined || name === '') {
       return HTTP.get('/categories/').then(response => {
-        response.data.forEach(category => {
-          Object.assign(category, {opened: false, items: []})
-        })
+        if (response.data !== '') {
+          response.data.forEach(category => {
+            Object.assign(category, {opened: false, items: []})
+          })
+        }
         return response.data
       })
     } else {
       return HTTP.get('/categories/?name=' + name).then(response => {
-        response.data.forEach(category => {
-          Object.assign(category, {opened: false, items: []})
-        })
+        if (response.data !== '') {
+          response.data.forEach(category => {
+            Object.assign(category, {opened: false, items: []})
+          })
+        }
         return response.data
       })
     }

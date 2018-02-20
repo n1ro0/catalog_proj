@@ -2,6 +2,7 @@ from rest_framework import viewsets
 from rest_framework import decorators
 from rest_framework.response import Response
 from rest_framework import status
+# from cacheback.decorators import cacheback
 
 
 from . import serializers
@@ -10,6 +11,8 @@ from catalog.items import (
     serializers as items_serializers,
     models as items_models
 )
+from . import cached
+from . import helpers
 
 
 class CategoryModelViewSet(viewsets.ModelViewSet):
@@ -21,12 +24,8 @@ class CategoryModelViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         name = request.query_params.get('name', None)
-        if name:
-            categories = self.get_queryset().filter(name__icontains=name)
-        else:
-            categories = self.get_queryset()
-        serializer = serializers.CategorySerializer(categories, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        name = helpers.add_prefix_for_cache('categories', name)
+        return Response(cached.Categories().get(name), status=status.HTTP_200_OK)
 
     @decorators.detail_route(methods=['get'])
     def items(self, request, pk=None):

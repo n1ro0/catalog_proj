@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.conf import settings
-from django.urls import (
-    path,
-    include,
-)
+from django.conf.urls import url, include
+# from django.urls import (
+#     path,
+#     include,
+# )
 from django.conf.urls.static import static
 
 
@@ -28,15 +29,15 @@ from rest_framework_swagger.views import get_swagger_view
 schema_view = get_swagger_view(title='Catalog API')
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/v1/', include('catalog.customauth.urls')),
-    path('api/v1/', include('catalog.categories.urls')),
-    path('api/v1/', include('catalog.items.urls')),
-    path('', schema_view)
+    url('^admin/', admin.site.urls),
+    url('^api/v1/', include('catalog.customauth.urls')),
+    url('^api/v1/', include('catalog.categories.urls')),
+    url('^api/v1/', include('catalog.items.urls')),
+    url('^', schema_view)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
-        path('__debug__/', include(debug_toolbar.urls))
+        url('^__debug__/', include(debug_toolbar.urls))
     ] + urlpatterns
