@@ -28,13 +28,13 @@ from rest_framework_swagger.views import get_swagger_view
 
 schema_view = get_swagger_view(title='Catalog API')
 
-urlpatterns = [
+urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [
     url('^admin/', admin.site.urls),
     url('^api/v1/', include('catalog.customauth.urls')),
     url('^api/v1/', include('catalog.categories.urls')),
     url('^api/v1/', include('catalog.items.urls')),
-    url('^', schema_view)
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    url('', schema_view)
+]
 
 if settings.DEBUG:
     import debug_toolbar

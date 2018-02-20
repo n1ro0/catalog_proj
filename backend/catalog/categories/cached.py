@@ -15,8 +15,7 @@ from catalog.items import serializers as items_serializers
 
 class Categories(Job):
     def fetch(self, name):
-        name = name.replace('categories', '')
-        if name == '':
+        if name == '' or name is None:
             categories = models.Category.objects.all()
         else:
             categories = models.Category.objects.filter(name__icontains=name)
@@ -26,6 +25,18 @@ class Categories(Job):
     def expiry(self, name):
         now = time.time()
         return now + 60 * 5
+
+
+class CategoryItems(Job):
+    lifetime = 60
+
+    def fetch(self, name, pk):
+        if name == '' or name is None:
+            items = models.Category.objects.get(pk=pk).items.all()
+        else:
+            items = models.Category.objects.get(pk=pk).items.filter(name__icontains=name)
+        serializer = items_serializers.DetailItemSerializer(items, many=True)
+        return serializer.data
 
 
 

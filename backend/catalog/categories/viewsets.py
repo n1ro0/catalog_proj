@@ -24,18 +24,12 @@ class CategoryModelViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         name = request.query_params.get('name', None)
-        name = helpers.add_prefix_for_cache('categories', name)
         return Response(cached.Categories().get(name), status=status.HTTP_200_OK)
 
     @decorators.detail_route(methods=['get'])
     def items(self, request, pk=None):
         name = request.query_params.get('name', None)
-        if name:
-            items = models.Category.objects.get(pk=pk).items.filter(name__icontains=name)
-        else:
-            items = models.Category.objects.get(pk=pk).items.all()
-        serializer = items_serializers.ListItemSerializer(items, many=True, context={'request': request})
-        return Response(serializer.data)
+        return Response(cached.CategoryItems().get(name, pk), status=status.HTTP_200_OK)
 
     @decorators.detail_route(methods=['get'])
     def sub_categories(self, request, pk=None):
