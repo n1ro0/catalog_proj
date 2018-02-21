@@ -35,4 +35,4 @@ class CategoryModelViewSet(viewsets.ModelViewSet):
     def sub_categories(self, request, pk=None):
         categories = models.Category.objects.get(pk=pk).sub_categories.all()
         serializer = serializers.CategorySerializer(categories, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)

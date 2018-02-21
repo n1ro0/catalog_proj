@@ -28,8 +28,14 @@ class Rate(core_models.TimeStamped):
     user = models.ForeignKey(auth_models.BaseUser, on_delete=models.CASCADE, related_name='rates')
     score = models.IntegerField()
 
+    def __str__(self):
+        return '{}'.format(self.score)
+
 
 class Comment(core_models.TimeStamped):
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(auth_models.BaseUser, on_delete=models.CASCADE, related_name='comments')
     text = models.TextField()
+
+    def __str__(self):
+        return '{}'.format(self.text)

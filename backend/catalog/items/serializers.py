@@ -11,25 +11,27 @@ class ListItemSerializer(serializers.HyperlinkedModelSerializer):
         many=True, slug_field='name',
         read_only=True
     )
+    rating = serializers.FloatField()
 
     class Meta:
         model = models.Item
         fields = (
-            'url', 'id', 'name', 'price', 'categories', 'image'
+            'url', 'id', 'name', 'price', 'categories', 'image', 'rating'
         )
         read_only_fields = (
-            'url', 'id', 'created_at', 'modified_at', 'image'
+            'url', 'id', 'created_at', 'modified_at', 'image', 'rating'
         )
 
 
 class DetailItemSerializer(serializers.ModelSerializer):
+    rating = serializers.FloatField()
 
     class Meta:
         model = models.Item
         fields = (
             'id', 'name', 'price', 'categories',
-            'description', 'image'
+            'description', 'image', 'rating'
         )
         read_only_fields = (
-            'id', 'created_at', 'modified_at'
+            'id', 'created_at', 'modified_at', 'rating'
         )

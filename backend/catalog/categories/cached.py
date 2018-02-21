@@ -2,6 +2,7 @@ import time
 
 
 from django.utils import timezone
+from django.db import models as dj_models
 
 
 from cacheback.decorators import cacheback
@@ -32,9 +33,10 @@ class CategoryItems(Job):
 
     def fetch(self, name, pk):
         if name == '' or name is None:
-            items = models.Category.objects.get(pk=pk).items.all()
+            items = models.Category.objects.get(pk=pk).items.annotate(rating=dj_models.Avg('rates__score'))
         else:
-            items = models.Category.objects.get(pk=pk).items.filter(name__icontains=name)
+            items = models.Category.objects.get(pk=pk).items.filter(name__icontains=name)\
+                .annotate(rating=dj_models.Avg('rates__score'))
         serializer = items_serializers.DetailItemSerializer(items, many=True)
         return serializer.data
 

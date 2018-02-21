@@ -1,5 +1,6 @@
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from django.db import models as dj_models
 
 
 from rest_framework import (
@@ -17,7 +18,7 @@ from . import models
 
 @method_decorator(csrf_exempt, name='dispatch')
 class ItemModelViewSet(viewsets.ModelViewSet):
-    queryset = models.Item.objects.all()
+    queryset = models.Item.objects.annotate(rating=dj_models.Avg('rates__score'))
     serializer_class = serializers.DetailItemSerializer
 
     def list(self, request, *args, **kwargs):
