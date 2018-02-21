@@ -31,6 +31,11 @@ class ItemModelViewSet(viewsets.ModelViewSet):
         serializer = serializers.CommentSerializer(comments, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @decorators.detail_route(methods=['get'])
+    def rates(self, request, pk, *args, **kwargs):
+        rates = self.get_queryset().get(pk=pk).rates.select_related('user')
+        serializer = serializers.RateSerializer(rates, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     # @decorators.parser_classes((parsers.FormParser, parsers.MultiPartParser))
     # def create(self, request, format=None):

@@ -43,3 +43,12 @@ class CommentSerializer(serializers.ModelSerializer):
         model = models.Comment
         fields = ('text', 'created_at', 'modified_at')
         read_only_fields = ('created_at', 'modified_at')
+
+
+class RateSerializer(serializers.ModelSerializer):
+    username = serializers.ReadOnlyField(source='user.username')
+
+    class Meta:
+        model = models.Rate
+        fields = ('score', 'created_at', 'modified_at', 'username')
+        read_only_fields = ('created_at', 'modified_at')
