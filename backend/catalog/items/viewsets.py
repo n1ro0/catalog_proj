@@ -16,7 +16,6 @@ from . import serializers
 from . import models
 
 
-@method_decorator(csrf_exempt, name='dispatch')
 class ItemModelViewSet(viewsets.ModelViewSet):
     queryset = models.Item.objects.annotate(rating=dj_models.Avg('rates__score'))
     serializer_class = serializers.DetailItemSerializer
@@ -26,6 +25,11 @@ class ItemModelViewSet(viewsets.ModelViewSet):
         serializer = serializers.ListItemSerializer(items, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @decorators.detail_route(methods=['get'])
+    def comments(self, request, pk, *args, **kwargs):
+        comments = self.get_queryset().get(pk=pk).comments.all()
+        serializer = serializers.CommentSerializer(comments, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
     # @decorators.parser_classes((parsers.FormParser, parsers.MultiPartParser))

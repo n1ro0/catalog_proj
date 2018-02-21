@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth import models as auth_models
 
 
+from . import signals
 from catalog.core import models as core_models
 
 

@@ -3,6 +3,7 @@ from rest_framework import decorators
 from rest_framework.response import Response
 from rest_framework import status
 # from cacheback.decorators import cacheback
+from rest_framework.permissions import IsAuthenticated
 
 
 from . import serializers
@@ -19,11 +20,14 @@ class CategoryModelViewSet(viewsets.ModelViewSet):
     """
     A viewset for viewing and editing trend instances.
     """
+    permission_classes = (IsAuthenticated, )
     serializer_class = serializers.CategorySerializer
     queryset = models.Category.objects.all()
 
     def list(self, request, *args, **kwargs):
         name = request.query_params.get('name', None)
+        print(request.user)
+        print(request.META)
         return Response(cached.Categories().get(name), status=status.HTTP_200_OK)
 
     @decorators.detail_route(methods=['get'])

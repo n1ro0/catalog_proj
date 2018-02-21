@@ -35,3 +35,11 @@ class DetailItemSerializer(serializers.ModelSerializer):
         read_only_fields = (
             'id', 'created_at', 'modified_at', 'rating'
         )
+
+
+class CommentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Comment
+        fields = ('text', 'created_at', 'modified_at')
+        read_only_fields = ('created_at', 'modified_at')
