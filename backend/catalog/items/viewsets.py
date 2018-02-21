@@ -14,11 +14,15 @@ from rest_framework.response import Response
 
 from . import serializers
 from . import models
+from . import cached
 
 
 class ItemModelViewSet(viewsets.ModelViewSet):
-    queryset = models.Item.objects.annotate(rating=dj_models.Avg('rates__score'))
+    queryset = models.Item.objects.with_rating()
     serializer_class = serializers.DetailItemSerializer
+
+    def retrieve(self, request, pk, *args, **kwargs):
+        return Response(cached.ItemDetail().get(pk), status=status.HTTP_200_OK)
 
     def list(self, request, *args, **kwargs):
         items = self.get_queryset()

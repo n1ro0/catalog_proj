@@ -29,14 +29,14 @@ class Categories(Job):
 
 
 class CategoryItems(Job):
-    lifetime = 60
+    lifetime = 60 * 5
 
     def fetch(self, name, pk):
         if name == '' or name is None:
-            items = models.Category.objects.get(pk=pk).items.annotate(rating=dj_models.Avg('rates__score'))
+            items = models.Category.objects.get(pk=pk).items.with_rating()
         else:
             items = models.Category.objects.get(pk=pk).items.filter(name__icontains=name)\
-                .annotate(rating=dj_models.Avg('rates__score'))
+                .with_rating()
         serializer = items_serializers.DetailItemSerializer(items, many=True)
         return serializer.data
 

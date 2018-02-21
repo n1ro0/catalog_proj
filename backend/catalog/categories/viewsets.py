@@ -26,8 +26,8 @@ class CategoryModelViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         name = request.query_params.get('name', None)
-        print(request.user)
-        print(request.META)
+        # print(request.user)
+        # print(request.META)
         return Response(cached.Categories().get(name), status=status.HTTP_200_OK)
 
     @decorators.detail_route(methods=['get'])
