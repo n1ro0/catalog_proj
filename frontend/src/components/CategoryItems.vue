@@ -10,7 +10,7 @@
     <ul v-else>
       <li v-for="item in items">
         <img :src="item.image"></img>
-         {{ item.id }}:{{ item.name }} - {{ item.price | currency }}
+         {{ item.id }}:{{ item.name }} - {{ item.price | currency }} - {{ item.rating }}
       </li>
 
     </ul>
