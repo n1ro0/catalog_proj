@@ -7,7 +7,7 @@ export const Product = {
     })
   },
   delete (category) {
-    return HTTP.delete('/categories/' + category.id + '/')
+    return HTTP.delete('/items/' + category.id + '/')
   },
   list (name) {
     if (name === undefined || name === '') {

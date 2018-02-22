@@ -1,9 +1,11 @@
 from rest_framework import serializers
+from drf_haystack import serializers as haystack_serializers
 
 
 from catalog.categories import models as categories_models
 from catalog.categories import serializers as categories_serializers
 from . import models
+from . import search_indexes
 
 
 class ListItemSerializer(serializers.HyperlinkedModelSerializer):
@@ -11,7 +13,7 @@ class ListItemSerializer(serializers.HyperlinkedModelSerializer):
         many=True, slug_field='name',
         read_only=True
     )
-    rating = serializers.FloatField()
+    rating = serializers.FloatField(read_only=True)
 
     class Meta:
         model = models.Item
@@ -24,7 +26,7 @@ class ListItemSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class DetailItemSerializer(serializers.ModelSerializer):
-    rating = serializers.FloatField()
+    rating = serializers.FloatField(read_only=True)
 
     class Meta:
         model = models.Item
@@ -52,3 +54,24 @@ class RateSerializer(serializers.ModelSerializer):
         model = models.Rate
         fields = ('score', 'created_at', 'modified_at', 'username')
         read_only_fields = ('created_at', 'modified_at')
+
+
+class ItemIndexSerializer(haystack_serializers.HaystackSerializer):
+
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass
+
+    class Meta:
+        # The `index_classes` attribute is a list of which search indexes
+        # we want to include in the search.
+        index_classes = [search_indexes.ItemIndex]
+
+        # The `fields` contains all the fields we want to include.
+        # NOTE: Make sure you don't confuse these with model attributes. These
+        # fields belong to the search index!
+        fields = [
+            "text", "name", "price", 'description', 'created_at', 'modified_at', "autocomplete"
+        ]
