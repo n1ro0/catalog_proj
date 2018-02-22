@@ -12,7 +12,6 @@ HTTP.post(
   '/api-token-auth/login/', {username: 'test', password: 'qwerty12'}
 ).then(response => {
   var token = response.data['token']
-  console.log(token)
   config.headers = {'Authorization': 'Token ' + token}
 })
 

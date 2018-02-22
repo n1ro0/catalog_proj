@@ -1,4 +1,4 @@
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, Permission
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse
@@ -9,16 +9,16 @@ from rest_framework import permissions
 from . import serializers
 from . import models
 
-
-@api_view(['GET'])
-def api_root(request, format=None):
-    """
-    The entry endpoint of our API.
-    """
-    return Response({
-        'users': reverse('user-list', request=request),
-        'groups': reverse('group-list', request=request),
-    })
+#
+# @api_view(['GET'])
+# def api_root(request, format=None):
+#     """
+#     The entry endpoint of our API.
+#     """
+#     return Response({
+#         'users': reverse('user-list', request=request),
+#         'groups': reverse('group-list', request=request),
+#     })
 
 
 class UserList(generics.ListCreateAPIView):

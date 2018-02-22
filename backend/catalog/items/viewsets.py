@@ -25,7 +25,16 @@ class ItemModelViewSet(viewsets.ModelViewSet):
         return Response(cached.ItemDetail().get(pk), status=status.HTTP_200_OK)
 
     def list(self, request, *args, **kwargs):
-        items = self.get_queryset()
+        sort = request.query_params.get('sort', None)
+        if sort:
+            if sort == 'desc':
+                items = self.get_queryset().order_by('-price')
+            elif sort == 'asc':
+                items = self.get_queryset().order_by('price')
+            else:
+                items = self.get_queryset()
+        else:
+            items = self.get_queryset()
         serializer = serializers.ListItemSerializer(items, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 

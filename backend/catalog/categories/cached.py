@@ -15,15 +15,12 @@ from catalog.items import serializers as items_serializers
 
 
 class Categories(Job):
-    def fetch(self, name):
-        if name == '' or name is None:
-            categories = models.Category.objects.all()
-        else:
-            categories = models.Category.objects.filter(name__icontains=name)
+    def fetch(self):
+        categories = models.Category.objects.all()
         serializer = serializers.CategorySerializer(categories, many=True)
         return serializer.data
 
-    def expiry(self, name):
+    def expiry(self):
         now = time.time()
         return now + 60 * 5
 
@@ -31,12 +28,8 @@ class Categories(Job):
 class CategoryItems(Job):
     lifetime = 60 * 5
 
-    def fetch(self, name, pk):
-        if name == '' or name is None:
-            items = models.Category.objects.get(pk=pk).items.with_rating()
-        else:
-            items = models.Category.objects.get(pk=pk).items.filter(name__icontains=name)\
-                .with_rating()
+    def fetch(self, pk):
+        items = models.Category.objects.get(pk=pk).items.with_rating()
         serializer = items_serializers.DetailItemSerializer(items, many=True)
         return serializer.data
 

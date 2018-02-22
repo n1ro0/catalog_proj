@@ -3,7 +3,7 @@ from rest_framework import decorators
 from rest_framework.response import Response
 from rest_framework import status
 # from cacheback.decorators import cacheback
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAdminUser
 
 
 from . import serializers
@@ -20,20 +20,30 @@ class CategoryModelViewSet(viewsets.ModelViewSet):
     """
     A viewset for viewing and editing trend instances.
     """
-    permission_classes = (IsAuthenticated, )
     serializer_class = serializers.CategorySerializer
     queryset = models.Category.objects.all()
 
     def list(self, request, *args, **kwargs):
         name = request.query_params.get('name', None)
-        # print(request.user)
-        # print(request.META)
-        return Response(cached.Categories().get(name), status=status.HTTP_200_OK)
+        if name is None or name == '':
+            categories = cached.Categories().get()
+        else:
+            categories = models.Category.objects.filter(name__icontains=name)
+            serializer = serializers.CategorySerializer(categories, many=True)
+            categories = serializer.data
+        return Response(categories, status=status.HTTP_200_OK)
 
     @decorators.detail_route(methods=['get'])
     def items(self, request, pk=None):
         name = request.query_params.get('name', None)
-        return Response(cached.CategoryItems().get(name, pk), status=status.HTTP_200_OK)
+        if name is None or name == '':
+            items = cached.CategoryItems().get(pk)
+        else:
+            items = models.Category.objects.get(pk=pk).items.filter(name__icontains=name) \
+                .with_rating()
+            serializer = items_serializers.DetailItemSerializer(items, many=True)
+            items = serializer.data
+        return Response(items, status=status.HTTP_200_OK)
 
     @decorators.detail_route(methods=['get'])
     def sub_categories(self, request, pk=None):
