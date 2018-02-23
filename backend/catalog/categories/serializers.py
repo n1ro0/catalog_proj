@@ -35,4 +35,4 @@ class CategoryIndexSerializer(haystack_serializers.HaystackSerializer):
 
     class Meta:
         index_classes = (search_indexes.CategoryIndex, )
-        fields = ('text', 'name', 'created_at', 'modified_at')
+        fields = ('text', "my_id", 'name', 'created_at', 'modified_at', 'autocomplete')

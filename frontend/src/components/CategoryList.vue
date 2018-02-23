@@ -10,7 +10,7 @@
       <button @click='getCategories(name)'>filter</button>
       <li v-for="(category, index) in categories">
         <a @click.prevent='showOrHideCategory(index)'>
-          {{ category.id }}:{{ category.name }} - {{ category.parent_category }}
+          {{ category.my_id }}:{{ category.name }} - {{ category.parent_category }}
         </a>
         <button
           @click='remove(category)'

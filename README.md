@@ -7,4 +7,4 @@ frontend - vue.js
 4. Авторизация и сортировка +
 5. Rates +
 6. Comments +
-7. Search powered by Haystack In Progress !!!
+7. Search powered by Haystack +

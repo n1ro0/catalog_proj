@@ -6,6 +6,7 @@ from . import models
 class CategoryIndex(indexes.SearchIndex, indexes.Indexable):
 
     text = indexes.CharField(document=True, use_template=True)
+    my_id = indexes.IntegerField(model_attr='pk')
     name = indexes.CharField(model_attr='name')
     created_at = indexes.DateTimeField(model_attr='created_at')
     modified_at = indexes.DateTimeField(model_attr='modified_at')
@@ -13,9 +14,7 @@ class CategoryIndex(indexes.SearchIndex, indexes.Indexable):
 
     @staticmethod
     def prepare_autocomplete(obj):
-        return " ".join((
-            obj.name,
-        ))
+        return obj.name
 
     def get_model(self):
         return models.Category

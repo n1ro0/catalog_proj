@@ -20,13 +20,13 @@ export const Category = {
         return response.data
       })
     } else {
-      return HTTP.get('/categories/?name=' + name).then(response => {
-        if (response.data !== '') {
-          response.data.forEach(category => {
+      return HTTP.get('/categories/search/?text__contains=' + name).then(response => {
+        if (response.data['results'] !== '' && response.data['results'] != undefined) {
+          response.data['results'].forEach(category => {
             Object.assign(category, {opened: false, items: []})
           })
         }
-        return response.data
+        return response.data['results']
       })
     }
   },

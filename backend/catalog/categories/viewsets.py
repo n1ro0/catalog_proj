@@ -54,6 +54,5 @@ class CategoryModelViewSet(viewsets.ModelViewSet):
 
 
 class CategorySearchViewSet(HaystackViewSet):
-
     index_models = (models.Category,)
     serializer_class = serializers.CategoryIndexSerializer
