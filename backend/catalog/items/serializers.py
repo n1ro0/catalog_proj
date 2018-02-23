@@ -58,11 +58,11 @@ class RateSerializer(serializers.ModelSerializer):
 
 class ItemIndexSerializer(haystack_serializers.HaystackSerializer):
 
-    def create(self, validated_data):
-        pass
-
-    def update(self, instance, validated_data):
-        pass
+    # def create(self, validated_data):
+    #     pass
+    #
+    # def update(self, instance, validated_data):
+    #     pass
 
     class Meta:
         # The `index_classes` attribute is a list of which search indexes
@@ -73,5 +73,5 @@ class ItemIndexSerializer(haystack_serializers.HaystackSerializer):
         # NOTE: Make sure you don't confuse these with model attributes. These
         # fields belong to the search index!
         fields = [
-            "text", "name", "price", 'description', 'created_at', 'modified_at', "autocomplete"
+            "text", "name", 'price', 'description', 'created_at', 'modified_at', 'autocomplete'
         ]

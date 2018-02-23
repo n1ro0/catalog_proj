@@ -16,7 +16,7 @@ class ItemIndex(indexes.SearchIndex, indexes.Indexable):
     @staticmethod
     def prepare_autocomplete(obj):
         return " ".join((
-            obj.name,
+            obj.name, str(obj.price)
         ))
 
     def get_model(self):
