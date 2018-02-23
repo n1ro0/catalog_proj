@@ -73,5 +73,5 @@ class ItemIndexSerializer(haystack_serializers.HaystackSerializer):
         # NOTE: Make sure you don't confuse these with model attributes. These
         # fields belong to the search index!
         fields = [
-            "text", "name", 'price', 'description', 'created_at', 'modified_at', 'autocomplete'
+            "text", 'id', "name", 'price', 'description', 'created_at', 'modified_at', 'autocomplete'
         ]

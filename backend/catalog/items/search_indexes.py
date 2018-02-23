@@ -1,11 +1,13 @@
 from django.utils import timezone
 from haystack import indexes
 from . import models
+import re
 
 
 class ItemIndex(indexes.SearchIndex, indexes.Indexable):
 
     text = indexes.CharField(document=True, use_template=True)
+    id = indexes.CharField(model_attr='id')
     name = indexes.CharField(model_attr='name')
     price = indexes.FloatField(model_attr='price')
     description = indexes.CharField(model_attr='description')
@@ -18,6 +20,7 @@ class ItemIndex(indexes.SearchIndex, indexes.Indexable):
         return " ".join((
             obj.name, str(obj.price)
         ))
+
 
     def get_model(self):
         return models.Item

@@ -2,18 +2,20 @@
   <div id="app">
     <hr/>
     <CategoryList/>
+    <ProductList/>
     <hr/>
   </div>
 </template>
 
 <script>
 import CategoryList from './components/CategoryList'
-
+import ProductList from './components/ProductList'
 
 export default {
   name: 'App',
   components: {
-    CategoryList
+    CategoryList,
+    ProductList
   }
 }
 </script>

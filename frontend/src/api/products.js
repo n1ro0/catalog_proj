@@ -9,36 +9,15 @@ export const Product = {
   delete (category) {
     return HTTP.delete('/items/' + category.id + '/')
   },
-  list (name) {
-    if (name === undefined || name === '') {
-      return HTTP.get('/categories/').then(response => {
-        if (response.data !== '') {
-          response.data.forEach(category => {
-            Object.assign(category, {opened: false, items: []})
-          })
-        }
+  list (text) {
+    if (text === undefined || text === '') {
+      return HTTP.get('/items/').then(response => {
         return response.data
       })
     } else {
-      return HTTP.get('/categories/?name=' + name).then(response => {
-        if (response.data !== '') {
-          response.data.forEach(category => {
-            Object.assign(category, {opened: false, items: []})
-          })
-        }
-        return response.data
+      return HTTP.get('/items/search/?text__contains=' + text).then(response => {
+        return response.data['results']
       })
     }
   },
-  items (category, name) {
-    if (name === undefined) {
-      return HTTP.get('/categories/' + category.id + '/items/').then(response => {
-        return response.data
-      })
-    } else {
-      return HTTP.get('/categories/' + category.id + '/items/?name=' + name).then(response => {
-        return response.data
-      })
-    }
-  }
 }
