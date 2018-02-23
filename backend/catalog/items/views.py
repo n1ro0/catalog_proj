@@ -1,5 +1,3 @@
-from django.shortcuts import render
-from drf_haystack.serializers import HaystackSerializer
 from drf_haystack.viewsets import HaystackViewSet
 
 from . import models

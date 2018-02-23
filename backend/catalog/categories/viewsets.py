@@ -2,6 +2,7 @@ from rest_framework import viewsets
 from rest_framework import decorators
 from rest_framework.response import Response
 from rest_framework import status
+from drf_haystack.viewsets import HaystackViewSet
 # from cacheback.decorators import cacheback
 from rest_framework.permissions import IsAdminUser
 
@@ -50,3 +51,9 @@ class CategoryModelViewSet(viewsets.ModelViewSet):
         categories = models.Category.objects.get(pk=pk).sub_categories.all()
         serializer = serializers.CategorySerializer(categories, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class CategorySearchViewSet(HaystackViewSet):
+
+    index_models = (models.Category,)
+    serializer_class = serializers.CategoryIndexSerializer

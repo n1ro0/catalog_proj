@@ -1,7 +1,9 @@
 from rest_framework import serializers
+from drf_haystack import serializers as haystack_serializers
 
 
 from . import models
+from . import search_indexes
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -27,3 +29,10 @@ class CategorySmallSerializer(serializers.ModelSerializer):
             'id', 'name'
         )
         read_only_fields = ('created_at', 'modified_at')
+
+
+class CategoryIndexSerializer(haystack_serializers.HaystackSerializer):
+
+    class Meta:
+        index_classes = (search_indexes.CategoryIndex, )
+        fields = ('text', 'name', 'created_at', 'modified_at')
